@@ -1,0 +1,233 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+  color: #fff;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #f0f0f0;
+}
+
+.score-board {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px 30px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  font-size: 1.2rem;
+}
+
+.score-board strong {
+  color: #4ade80;
+}
+
+.percentage {
+  margin-left: 10px;
+  color: #94a3b8;
+}
+
+.game-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.board-container {
+  background: #2a2a4a;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+#board {
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.turn-indicator {
+  text-align: center;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.turn-indicator.white {
+  background: #f0f0f0;
+  color: #1a1a2e;
+}
+
+.turn-indicator.black {
+  background: #333;
+  color: #f0f0f0;
+}
+
+.controls {
+  text-align: center;
+  width: 100%;
+  max-width: 440px;
+}
+
+.question {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: #e0e0e0;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 15px 25px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 600;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.btn-white {
+  background: #f0f0f0;
+  color: #1a1a2e;
+}
+
+.btn-black {
+  background: #333;
+  color: #f0f0f0;
+  border: 2px solid #555;
+}
+
+.btn-draw {
+  background: #6b7280;
+  color: #fff;
+}
+
+.btn.correct {
+  background: #22c55e !important;
+  color: white !important;
+}
+
+.btn.incorrect {
+  background: #ef4444 !important;
+  color: white !important;
+}
+
+.btn-next {
+  background: #3b82f6;
+  color: white;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.btn-next:hover {
+  background: #2563eb;
+}
+
+.result {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 25px;
+  border-radius: 15px;
+  margin-top: 10px;
+}
+
+.result p {
+  margin: 10px 0;
+}
+
+.correct-text {
+  color: #4ade80;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.incorrect-text {
+  color: #f87171;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.lichess-btn {
+  display: inline-block;
+  background: #629924;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 15px 0;
+  transition: background 0.2s;
+}
+
+.lichess-btn:hover {
+  background: #4a7a1c;
+}
+
+@media (min-width: 768px) {
+  .game-area {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .controls {
+    max-width: 280px;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  #board {
+    width: 300px !important;
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+}

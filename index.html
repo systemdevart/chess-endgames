@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess Endgame Trainer</title>
+  <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Chess Endgame Trainer</h1>
+
+    <div class="score-board">
+      <span>Score: <strong id="correct">0</strong> / <strong id="total">0</strong></span>
+      <span class="percentage" id="percentage"></span>
+    </div>
+
+    <div class="game-area">
+      <div class="board-container">
+        <div id="board" style="width: 400px"></div>
+        <div class="turn-indicator" id="turn-indicator"></div>
+      </div>
+
+      <div class="controls">
+        <p class="question">Which side wins, or is it a draw?</p>
+
+        <div class="buttons" id="answer-buttons">
+          <button class="btn btn-white" data-answer="white">White wins</button>
+          <button class="btn btn-draw" data-answer="draw">Draw</button>
+          <button class="btn btn-black" data-answer="black">Black wins</button>
+        </div>
+
+        <div class="result" id="result" style="display: none;">
+          <p id="result-text"></p>
+          <a id="lichess-link" href="#" target="_blank" class="lichess-btn">Analyze on Lichess</a>
+          <button class="btn btn-next" id="next-btn">Next Position</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
