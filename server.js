@@ -60,8 +60,46 @@ function loadDatabase() {
   }
 }
 
+// Fetch Lichess cloud evaluation for a position
+async function getLichessEval(fen) {
+  try {
+    const response = await fetch(`https://lichess.org/api/cloud-eval?fen=${encodeURIComponent(fen)}&multiPv=1`);
+    if (response.ok) {
+      return await response.json();
+    }
+  } catch (err) {
+    console.error('Failed to fetch Lichess eval:', err);
+  }
+  return null;
+}
+
+// Determine result from Lichess evaluation
+function getResultFromEval(evalData) {
+  if (!evalData || !evalData.pvs || evalData.pvs.length === 0) {
+    return null;
+  }
+
+  const pv = evalData.pvs[0];
+
+  // Check for mate
+  if (pv.mate !== undefined) {
+    if (pv.mate > 0) return 'white';
+    if (pv.mate < 0) return 'black';
+    return 'draw'; // mate === 0 means stalemate
+  }
+
+  // Check centipawn evaluation (threshold: 1000cp = 10 pawns)
+  if (pv.cp !== undefined) {
+    if (pv.cp > 1000) return 'white';
+    if (pv.cp < -1000) return 'black';
+    return 'draw';
+  }
+
+  return null;
+}
+
 // API endpoint to get a random position
-app.get('/api/position', (req, res) => {
+app.get('/api/position', async (req, res) => {
   if (positions.length === 0) {
     return res.status(500).json({ error: 'No positions loaded' });
   }
@@ -73,14 +111,19 @@ app.get('/api/position', (req, res) => {
   const fenParts = position.fen.split(' ');
   const sideToMove = fenParts[1] === 'w' ? 'white' : 'black';
 
-  // Determine the correct answer
-  let correctAnswer;
-  if (position.result === '1-0') {
-    correctAnswer = 'white';
-  } else if (position.result === '0-1') {
-    correctAnswer = 'black';
-  } else {
-    correctAnswer = 'draw';
+  // Get evaluation from Lichess API
+  const evalData = await getLichessEval(position.fen);
+  let correctAnswer = getResultFromEval(evalData);
+
+  // Fallback to PGN result if Lichess eval unavailable
+  if (!correctAnswer) {
+    if (position.result === '1-0') {
+      correctAnswer = 'white';
+    } else if (position.result === '0-1') {
+      correctAnswer = 'black';
+    } else {
+      correctAnswer = 'draw';
+    }
   }
 
   // Create Lichess analysis URL
@@ -94,7 +137,8 @@ app.get('/api/position', (req, res) => {
     white: position.white,
     firstMove: position.firstMove,
     date: position.date,
-    lichessUrl
+    lichessUrl,
+    evalSource: evalData ? 'lichess' : 'pgn'
   });
 });
 

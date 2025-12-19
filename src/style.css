@@ -87,6 +87,9 @@ h1 {
 
 .board-container {
   padding: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #board {

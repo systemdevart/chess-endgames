@@ -2,7 +2,16 @@ const API_URL = '';
 
 let board = null;
 let currentPosition = null;
-let score = { correct: 0, total: 0 };
+let score = loadScore();
+
+function loadScore() {
+  const saved = localStorage.getItem('chess-endgames-score');
+  return saved ? JSON.parse(saved) : { correct: 0, total: 0 };
+}
+
+function saveScore() {
+  localStorage.setItem('chess-endgames-score', JSON.stringify(score));
+}
 
 function initBoard() {
   board = Chessboard('board', {
@@ -44,6 +53,7 @@ function handleAnswer(selectedAnswer) {
 
   score.total++;
   if (correct) score.correct++;
+  saveScore();
 
   document.getElementById('correct').textContent = score.correct;
   document.getElementById('total').textContent = score.total;
@@ -79,6 +89,11 @@ async function loadNextPosition() {
 
 async function init() {
   initBoard();
+
+  document.getElementById('correct').textContent = score.correct;
+  document.getElementById('total').textContent = score.total;
+  const percentage = score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0;
+  document.getElementById('percentage').textContent = `(${percentage}%)`;
 
   document.querySelectorAll('#answer-buttons .btn').forEach(btn => {
     btn.addEventListener('click', () => handleAnswer(btn.dataset.answer));
